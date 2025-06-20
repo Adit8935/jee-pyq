@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JEE PYQ | Electrostatics</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap');
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to right, #f9fcff, #eef5ff);
+      color: #222;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #004aad;
+      font-weight: 800;
+      font-size: 2rem;
+    }
+    .question-card {
+      background: white;
+      margin: 25px auto;
+      max-width: 700px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+    .question-card:hover {
+      transform: translateY(-4px);
+    }
+    .question {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .option {
+      margin: 12px 0;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #f1f5fb;
+      border: 2px solid transparent;
+      transition: 0.3s ease;
+    }
+    .option:hover {
+      background-color: #e0edff;
+    }
+    .option.correct {
+      background-color: #c8f7dc;
+      border-color: #00a86b;
+      color: #0b4c3a;
+    }
+    .option.incorrect {
+      background-color: #ffd4d4;
+      border-color: #e53935;
+      color: #7f1d1d;
+    }
+    .correct-msg {
+      font-weight: 700;
+      font-size: 1.1em;
+      color: #008000;
+      margin-top: 15px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards 0.3s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h2>Physics – Electrostatics (2020–2025)</h2>
+
+  <div id="quiz"></div>
+
+  <!-- 🔊 Sounds -->
+  <audio id="correctSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_7cf8e59f15.mp3?filename=game-correct-153029.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="wrongSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2021/09/01/audio_702e3db3d6.mp3?filename=error-126627.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const correctSound = document.getElementById('correctSound');
+    const wrongSound = document.getElementById('wrongSound');
+
+    document.body.addEventListener('click', () => {
+      correctSound.play().then(() => correctSound.pause()).catch(() => {});
+      wrongSound.play().then(() => wrongSound.pause()).catch(() => {});
+    }, { once: true });
+
+    const data = [
+      {
+        year: 2025,
+        question: "1. Electric field at the centre of a uniformly charged ring is",
+        options: ["Zero", "Infinity", "kQ/r²", "None"],
+        answer: "Zero"
+      },
+      {
+        year: 2024,
+        question: "2. Two identical charges separated by distance will have potential energy proportional to",
+        options: ["1/r", "1/r²", "r", "r²"],
+        answer: "1/r"
+      },
+      {
+        year: 2023,
+        question: "3. Electric field just outside charged conducting sphere is",
+        options: ["Q/(4πε₀r²)", "Zero", "Q/(πε₀r)", "Depends on material"],
+        answer: "Q/(4πε₀r²)"
+      },
+      {
+        year: 2022,
+        question: "4. Work done moving charge in uniform field is path‑dependent?",
+        options: ["Yes", "No", "Depends", "Only if non‑uniform"],
+        answer: "No"
+      },
+      {
+        year: 2021,
+        question: "5. Potential at infinity is taken as",
+        options: ["Zero", "∞", "Q/4πε₀r", "None"],
+        answer: "Zero"
+      }
+    ];
+
+    const quizEl = document.getElementById('quiz');
+
+    data.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'question-card';
+
+      const q = document.createElement('div');
+      q.className = 'question';
+      q.innerText = `[${item.year}]  ${item.question}`;
+      card.appendChild(q);
+
+      item.options.forEach(opt => {
+        const o = document.createElement('div');
+        o.className = 'option';
+        o.innerText = opt;
+        o.onclick = () => check(o, item.answer, card);
+        card.appendChild(o);
+      });
+
+      const msg = document.createElement('div');
+      msg.className = 'correct-msg';
+      card.appendChild(msg);
+
+      quizEl.appendChild(card);
+    });
+
+    function check(elem, correct, card) {
+      const opts = card.querySelectorAll('.option');
+      opts.forEach(o => {
+        o.classList.remove('correct', 'incorrect');
+        if (o.innerText === correct) o.classList.add('correct');
+      });
+      if (elem.innerText === correct) {
+        correctSound.currentTime = 0;
+        correctSound.play();
+        card.querySelector('.correct-msg').innerText = "✅ Correct!";
+      } else {
+        elem.classList.add('incorrect');
+        wrongSound.currentTime = 0;
+        wrongSound.play();
+        card.querySelector('.correct-msg').innerText = "❌ Oops, wrong!";
+      }
+    }
+  </script>
+</body>
+</html>
