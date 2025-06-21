@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  background: #f2f6fc;
+}
+
+#sidebar {
+  width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#sidebar h2 {
+  margin-top: 0;
+  color: #2d2d2d;
+}
+
+#sidebar ul, #chapter-list {
+  list-style: none;
+  padding: 0;
+}
+
+#sidebar li {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#sidebar li:hover {
+  background: #e0ebff;
+  color: #0056d6;
+}
+
+#main {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.question-block {
+  background: #fff;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.question-block p {
+  margin-bottom: 1rem;
+}
+
+.question-block button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.question-block button:hover {
+  background: #e6f0ff;
+}
+
+button.correct {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+button.wrong {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+.correct-text {
+  color: green;
+  font-weight: bold;
+}
+
+.wrong-text {
+  color: red;
+  font-weight: bold;
+}
