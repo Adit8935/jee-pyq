@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JEE Mains Physics 2024 Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Physics</h2>
+    <ul>
+      <li class="year-item" onclick="loadYear('2024')">2024</li>
+    </ul>
+    <ul id="chapter-list"></ul>
+  </div>
+
+  <div id="main">
+    <h2 id="current-title">Select a year and chapter</h2>
+    <div id="quiz-container"></div>
+  </div>
+
+  <audio id="sound-correct" src="correct.mp3"></audio>
+  <audio id="sound-wrong" src="wrong.mp3"></audio>
+
+  <script>
+    // Full Physics 2024 questions with chapters
+    const physicsData = {
+      "2024": {
+        "Laws of Motion": [
+          {
+            q: "A block is pulled by a rope on a frictionless surface. What is the acceleration if T=10N and m=2kg?",
+            options: ["2 m/s²", "5 m/s²", "10 m/s²", "20 m/s²"],
+            answer: 1
+          },
+          {
+            q: "Two blocks connected with a pulley. If m1=2kg, m2=4kg, find acceleration.",
+            options: ["g/3", "g/2", "2g/3", "g"],
+            answer: 0
+          }
+          // Add all other questions here exactly as per your data...
+        ],
+        "Work, Power & Energy": [
+          {
+            q: "Work done by force F over displacement d at angle θ is?",
+            options: ["F + d", "Fd", "Fd sinθ", "Fd cosθ"],
+            answer: 3
+          }
+          // Add more questions...
+        ],
+        // ...add all chapters here with all questions...
+      }
+      // Add 2025 later similarly
+    };
+
+    function loadYear(year) {
+      const chapters = physicsData[year];
+      const chapterList = document.getElementById("chapter-list");
+      chapterList.innerHTML = "";
+      document.getElementById("current-title").textContent = `Physics ${year} - Select Chapter`;
+
+      Object.keys(chapters).forEach(chapter => {
+        const li = document.createElement("li");
+        li.textContent = chapter;
+        li.onclick = () => loadQuestions(year, chapter);
+        chapterList.appendChild(li);
+      });
+    }
+
+    function loadQuestions(year, chapter) {
+      document.getElementById("current-title").textContent = `${chapter} (${year})`;
+      const container = document.getElementById("quiz-container");
+      container.innerHTML = "";
+
+      const questions = physicsData[year][chapter];
+      questions.forEach((q, idx) => {
+        const qDiv = document.createElement("div");
+        qDiv.className = "question-block";
+
+        const qText = document.createElement("p");
+        qText.innerHTML = `<b>Q${idx + 1}.</b> ${q.q}`;
+        qDiv.appendChild(qText);
+
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.textContent = opt;
+          btn.onclick = () => handleAnswer(btn, i, q.answer, q.options, qDiv);
+          qDiv.appendChild(btn);
+        });
+
+        container.appendChild(qDiv);
+      });
+    }
+
+    function handleAnswer(btn, selected, correct, options, qDiv) {
+      if (qDiv.dataset.answered) return;
+      qDiv.dataset.answered = "true";
+
+      const buttons = qDiv.querySelectorAll("button");
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add("correct");
+        if (i === selected && i !== correct) b.classList.add("wrong");
+      });
+
+      const feedback = document.createElement("p");
+      if (selected === correct) {
+        document.getElementById("sound-correct").play();
+        feedback.textContent = "Correct ✅";
+        feedback.className = "correct-text";
+      } else {
+        document.getElementById("sound-wrong").play();
+        feedback.textContent = `Oops, Wrong ❌ | Correct: ${options[correct]}`;
+        feedback.className = "wrong-text";
+      }
+      qDiv.appendChild(feedback);
+    }
+  </script>
+</body>
+</html>
